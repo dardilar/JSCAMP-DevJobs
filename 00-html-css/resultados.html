@@ -6,24 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Resultados de búsqueda de empleos para desarrolladores en DevJobs.">
     <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
-    <header>
-        <h1>DevJobs Logo</h1>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__container">
+                <a class="logo" href="/">
+                    <svg width="40" height="40" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"
+                        aria-label="DevJobs logo" role="img">
+                        <path clip-rule="evenodd"
+                            d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                            fill="#1173D4" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="logo__text">DevJobs</span>
+                </a>
 
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Empleos</a>
-            <a href="#">Empresas</a>
-            <a href="#">Salarios</a>
+                <ul class="nav__links">
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Empleos</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Empresas</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Salarios</a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="nav__links">
+                <li class="nav__item">
+                    <a class="nav__link--btn" href="#">Subir CV</a>
+                </li>
+                <li class="nav__item">
+                    <button class="nav__profile-btn" aria-label="Abrir menu de perfil">
+                        <img src="./perfil.png" alt="Imagen de perfil" width="40" height="40">
+                    </button>
+                </li>
+            </ul>
         </nav>
-
-        <div>
-            <a href="#">Subir CV</a>
-        </div>
-
-        <img src="./perfil.png" alt="Imágen de perfil" width="40" height="40">
     </header>
 
     <main>
