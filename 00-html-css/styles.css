@@ -186,6 +186,11 @@ body {
   color: var(--text-primary);
 }
 
+.search__input input::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
 /* SEARCH FILTERS BOXES */
 .search__filters {
   width: 80%;
@@ -277,6 +282,10 @@ body {
   background-color: #1173D4;
   padding: 1.2rem 2.2rem;
   border-radius: 0.8rem;
+}
+
+.search__result--card a:hover {
+  background-color: var(--primary-hover);
 }
 
 /* PAGINATION */
