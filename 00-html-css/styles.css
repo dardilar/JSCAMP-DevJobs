@@ -294,7 +294,6 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
   padding: 2rem 2rem;
   max-width: 80%;
   margin: 2rem auto;
@@ -341,12 +340,26 @@ body {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2'%3e%3cpath d='M9 18l6-6-6-6'/%3e%3c/svg%3e");
 }
 
-
-
-
 @media (max-width: 768px) {
   .search__result--card {
     flex-direction: column;
+  }
+  .pagination {
+    padding: 1.5rem 1rem;
+    max-width: 95%;
+  }
+
+  .slider__btn {
+    display: none;
+  }
+
+  .pagination__list {
+    gap: 0.4rem;
+  }
+
+  .page {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.4rem;
   }
 }
 
