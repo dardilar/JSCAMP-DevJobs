@@ -19,3 +19,21 @@ searchResults.addEventListener('click', function(e) {
         applyBtnActive.textContent = 'Aplicar';
     }
 })
+
+// Filter 'Ubicación'
+const locationFilter = document.querySelector('#ubicacion');
+const cardsLocation = document.querySelectorAll('.search__result--card');
+
+locationFilter.addEventListener('change', function(e) {
+    const location = e.target.value;
+    
+    cardsLocation.forEach(function(card) {
+        const cardLocation = card.dataset.location;
+        
+        if(location === cardLocation || location === '') {
+            card.classList.remove('hidden');
+        }else {
+            card.classList.add('hidden');
+        }
+    })
+})

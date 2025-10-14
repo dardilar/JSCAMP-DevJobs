@@ -567,6 +567,10 @@ body {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 @media (max-width: 830px) {
   .search__filters {
     justify-content: center;
