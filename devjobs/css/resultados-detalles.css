@@ -295,17 +295,26 @@ body {
   margin-bottom: 2.6rem;
 }
 
-.search__result--card a {
+.search__result--card__cta {
+  transition: transform 0.2s ease;
+
+  &:has(.apply__btn:not(.apply__btn--active)):active {
+    transform: scale(0.95);
+  }
+}
+
+.apply__btn {
+  display: inline-block;
   text-decoration: none;
   color: var(--text-primary);
   background-color: #1173D4;
   padding: 1.2rem 2.2rem;
   border-radius: 0.8rem;
-  transition: background-color 0.2s ease;
-}
+  transition: all 0.2s ease;
 
-.search__result--card a:hover {
-  background-color: var(--primary-hover);
+  &:hover {
+    background-color: var(--primary-hover);
+  }
 }
 
 /* PAGINATION */
@@ -469,6 +478,7 @@ body {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
+  /* Resultados page */
   .search__result--card {
     flex-direction: column;
   }
@@ -490,10 +500,100 @@ body {
     padding: 0.8rem 1.2rem;
     font-size: 1.4rem;
   }
+
+  /* Detalles page */
+  .main__details {
+    padding: 0 2rem;
+  }
+
+  .main__details--category {
+    font-size: 1.4rem;
+    margin-block: 2rem;
+  }
+
+  .card__details {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+
+  .card__details h1 {
+    font-size: 2.4rem;
+  }
+
+  .card__details div p {
+    font-size: 1.4rem;
+  }
+
+  .card__cta {
+    width: 100%;
+    text-align: center;
+    padding: 1.4rem 2rem;
+  }
+
+  .info__details h2 {
+    font-size: 2rem;
+  }
+
+  .info__details p,
+  .info__details ul li {
+    font-size: 1.5rem;
+  }
+
+  .info__details ul li {
+    padding-left: 2.8rem;
+  }
+
+  .info__details ul li::before {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
+  .right__cta {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+  }
+}
+
+.apply__btn--active {
+  background-color: #4caf50;
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+
+  &:hover {
+    background-color: #4caf50;
+  }
 }
 
 @media (max-width: 830px) {
   .search__filters {
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .main__details {
+    padding: 0 1.5rem;
+  }
+
+  .card__details h1 {
+    font-size: 2rem;
+  }
+
+  .info__details h2 {
+    font-size: 1.8rem;
+  }
+
+  .nav__links {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav__item {
+    margin-left: 0;
+    margin-top: 1rem;
   }
 }
