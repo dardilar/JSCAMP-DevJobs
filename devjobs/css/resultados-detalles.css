@@ -627,3 +627,9 @@ body {
     margin-top: 1rem;
   }
 }
+
+@media (max-width: 746px) {
+  .nav__links {
+    display: none;
+  }
+}
