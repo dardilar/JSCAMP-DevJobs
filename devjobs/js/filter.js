@@ -1,24 +1,49 @@
 'use strict'
 
-// Filter 'Ubicación'
+const searchInput = document.querySelector('#search');
 const locationFilter = document.querySelector('#ubicacion');
+const levelFilter = document.querySelector('#nivel');
 
-locationFilter.addEventListener('change', function() {
-    const cardsLocation = document.querySelectorAll('.search__result--card');
+const applyAllFilters = function() {
+    const searchValue = searchInput.value.toLowerCase();
     const location = locationFilter.value;
-    
-    cardsLocation.forEach(function(card) {
-        const cardLocation = card.dataset.location;
-        const isHidden = location === cardLocation || location === ''
-        
-        card.classList.toggle('hidden', !isHidden);
-    })
+    const level = levelFilter.value;
+    const cardsContainer = document.querySelectorAll('.search__result--card');
+
+    cardsContainer.forEach(function(card) {
+      let isHidden = false;
+      const title = card.querySelector('.search__result--card__title').textContent.toLowerCase();
+
+      // Search filter
+      if(searchValue && !title.includes(searchValue)) {
+        isHidden = true;
+      }
+
+      // Location filter
+      if(location && card.dataset.location !== location) {
+        isHidden = true;
+      }
+
+      // Level filter
+      if(level && card.dataset.level !== level) {
+        isHidden = true;
+      }
+
+      card.classList.toggle('hidden', isHidden);
+    }) 
+}
+
+// Filter 'Location'
+locationFilter.addEventListener('change', function() {
+    applyAllFilters();
+})
+
+// Filter 'Level'
+levelFilter.addEventListener('change', function() {
+    applyAllFilters();
 })
 
 // Input 'search' filter
-const searchInput = document.querySelector('#search');
-
-searchInput.addEventListener('input', function(e) {
-    const searchValue = searchInput.value;
-    console.log(searchValue);
+searchInput.addEventListener('input', function() {
+    applyAllFilters();
 })

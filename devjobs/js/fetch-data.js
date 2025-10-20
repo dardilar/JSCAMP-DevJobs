@@ -8,9 +8,9 @@ fetch('./data.json')
 .then(jobs => {
     jobs.forEach(job => {
         const article = `
-        <article class="search__result--card" data-location="${job.data.modalidad}">
+        <article class="search__result--card" data-location="${job.data.modalidad}" data-level="${job.data.nivel}">
             <div>
-                <h3>${job.titulo}</h3>
+                <h3 class="search__result--card__title">${job.titulo}</h3>
                 <p>${job.empresa} | ${job.ubicacion}</p>
                 <p>${job.descripcion}</p>
             </div>
