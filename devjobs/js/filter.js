@@ -33,17 +33,17 @@ const applyAllFilters = function() {
     }) 
 }
 
-// Filter 'Location'
+// Event listener Filter 'Location'
 locationFilter.addEventListener('change', function() {
     applyAllFilters();
 })
 
-// Filter 'Level'
+// Event listener Filter 'Level'
 levelFilter.addEventListener('change', function() {
     applyAllFilters();
 })
 
-// Input 'search' filter
+// Event listener Input 'search' filter
 searchInput.addEventListener('input', function() {
     applyAllFilters();
 })
