@@ -3,15 +3,18 @@
 const searchInput = document.querySelector('#search');
 const locationFilter = document.querySelector('#ubicacion');
 const levelFilter = document.querySelector('#nivel');
+const technologyFilter = document.querySelector('#categoria');
 
 const applyAllFilters = function() {
     const searchValue = searchInput.value.toLowerCase();
     const location = locationFilter.value;
     const level = levelFilter.value;
+    const technology = technologyFilter.value;
     const cardsContainer = document.querySelectorAll('.search__result--card');
 
     cardsContainer.forEach(function(card) {
       let isHidden = false;
+      const technologies = card.dataset.technology.split(',');
       const title = card.querySelector('.search__result--card__title').textContent.toLowerCase();
 
       // Search filter
@@ -29,9 +32,19 @@ const applyAllFilters = function() {
         isHidden = true;
       }
 
+      // Technology filter
+      if(technology && !technologies.includes(technology)) {
+        isHidden = true;
+      }
+
       card.classList.toggle('hidden', isHidden);
     }) 
 }
+
+// Event listener Input 'search' filter
+searchInput.addEventListener('input', function() {
+    applyAllFilters();
+})
 
 // Event listener Filter 'Location'
 locationFilter.addEventListener('change', function() {
@@ -43,7 +56,7 @@ levelFilter.addEventListener('change', function() {
     applyAllFilters();
 })
 
-// Event listener Input 'search' filter
-searchInput.addEventListener('input', function() {
+// Event listener Filter 'Technology'
+technologyFilter.addEventListener('change', function() {
     applyAllFilters();
 })
