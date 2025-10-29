@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resultados de búsqueda de empleos para desarrolladores en DevJobs.">
+    <title>Resultados de Búsqueda</title>
+
+    <link rel="stylesheet" href="./css/resultados-detalles.css">
+
+    <script type="module">
+        import React from "https://esm.sh/react?dev"
+        import ReactDOM from "https://esm.sh/react-dom/client?dev"
+
+        window.React = React;
+        window.ReactDOM = ReactDOM;
+    </script>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        // Elemento de React
+        const title = <h1 style={{ color: '#09f' }}>Hola, React.js</h1>
+
+        // Componente de React
+        const Saludo = function ({ nombre, color }) {
+            return <h1 style={{ color: color }}>Hola, {nombre}</h1>
+        };
+
+        const JobCard = function ({ data, titulo, empresa, ubicacion, descripcion }) {
+            const [applied, setApplied] = React.useState(false); // useState hook
+
+            const applyButton = function (e) {
+                e.preventDefault();
+                setApplied(!applied);
+            };
+
+            const text = applied ? 'Aplicado' : 'Aplicar';
+            const buttonStyle = applied ? 'apply__btn--active' : '';
+            
+            return (
+                <article className="search__result--card" data-location={data?.modalidad} data-level={data?.nivel} data-technology={data?.technology}>
+                    <div>
+                        <h3 className="search__result--card__title">{titulo}</h3>
+                        <p>{empresa} | {ubicacion}</p>
+                        <p>{descripcion}</p>
+                    </div>
+
+                    <div className="search__result--card__cta" onClick={applyButton}>
+                        <a className={`apply__btn ${buttonStyle}`} disabled={applied} href="#">{text}</a>
+                    </div>
+                </article>
+            )
+        };
+
+        const App = function () {
+            return (
+                <div className="search__results--cards">
+                    <JobCard data={{modalidad: "Remoto", nivel: "Junior", technology: "React"}} titulo="Desarrollador React" empresa="Tech Solutions" ubicacion="Remoto" descripcion="Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación." />
+                    <JobCard data={{modalidad: "Remoto", nivel: "Junior", technology: "React"}} titulo="Desarrollador React" empresa="Tech Solutions" ubicacion="Remoto" descripcion="Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación." />
+                    <JobCard data={{modalidad: "Remoto", nivel: "Junior", technology: "React"}} titulo="Desarrollador React" empresa="Tech Solutions" ubicacion="Remoto" descripcion="Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación." />
+                </div>
+            )
+        };
+
+        const rootEl = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootEl);
+        root.render(<App />);
+    </script>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__container">
+                <a class="logo" href="/">
+                    <svg width="40" height="40" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"
+                        aria-label="DevJobs logo" role="img">
+                        <path clip-rule="evenodd"
+                            d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                            fill="#1173D4" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="logo__text">DevJobs</span>
+                </a>
+
+                <ul class="nav__links">
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="./resultados.html">Empleos</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Empresas</a>
+                    </li>
+                    <li class="nav__item">
+                        <a class="nav__link" href="#">Salarios</a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="nav__links">
+                <li class="nav__item">
+                    <a class="nav__link--btn" href="#">Subir CV</a>
+                </li>
+                <li class="nav__item">
+                    <button class="nav__profile-btn" aria-label="Abrir menu de perfil">
+                        <!-- <img src="./img/perfil.png" alt="Imagen de perfil" width="40" height="40"> -->
+                        <devjobs-avatar service="github" username="dardilar" size="40"></devjobs-avatar>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container__results">
+        <section class="search">
+            <h1>React.js primeros pasos</h1>
+        </section>
+
+        <section>
+            <h2 style="margin-bottom: 2rem;">Empleos disponibles</h2>
+            <div id="root"></div>
+        </section>
+
+    </main>
+</body>
+
+</html>

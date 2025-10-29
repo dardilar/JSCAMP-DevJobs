@@ -4,7 +4,7 @@ class DevJobsAvatar extends HTMLElement {
     constructor() {
         super(); // Llama al constructor de la clase padre HTMLElement
 
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({ mode: 'open' }); // Permite acceder al DOM del elemento personalizado
     }
 
     createUrl(service, username) {
