@@ -1,0 +1,125 @@
+
+function App() {
+  return (
+    <>
+        <header className="header">
+        <nav className="nav">
+            <div className="nav__container">
+                <a className="logo" href="/">
+                    <svg width="40" height="40" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"
+                        aria-label="DevJobs logo" role="img">
+                        <path clipRule="evenodd"
+                            d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z"
+                            fill="#1173D4" fillRule="evenodd"></path>
+                    </svg>
+                    <span className="logo__text">DevJobs</span>
+                </a>
+
+                <ul className="nav__links">
+                    <li className="nav__item">
+                        <a className="nav__link" href="#">Inicio</a>
+                    </li>
+                    <li className="nav__item">
+                        <a className="nav__link" href="./resultados.html">Empleos</a>
+                    </li>
+                    <li className="nav__item">
+                        <a className="nav__link" href="#">Empresas</a>
+                    </li>
+                    <li className="nav__item">
+                        <a className="nav__link" href="#">Salarios</a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul className="nav__links">
+                <li className="nav__item">
+                    <a className="nav__link--btn" href="#">Subir CV</a>
+                </li>
+                <li className="nav__item">
+                    <button className="nav__profile-btn" aria-label="Abrir menu de perfil">
+                        <devjobs-avatar service="github" username="dardilar" size="40"></devjobs-avatar>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        </header>
+
+        <main className="container__results">
+            <section className="search">
+                <h1>Encuentra tu próximo trabajo</h1>
+
+                <p>Explora miles de oportunidades en el sector tecnológico.</p>
+
+                <form className="search__form" action="" id="search__form" name="search__form">
+                    <div className="search__input">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"
+                            className="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                            <path d="M21 21l-6 -6" />
+                        </svg>
+
+                        <input type="text" name="search" id="search" placeholder="Buscar trabajos, empresas o habilidades" />
+                    </div>
+
+                    <div className="search__filters">
+                        <select name="categoria" className="filter__box" id="categoria">
+                            <option value="">Tecnología</option>
+                            <option value="react">React</option>
+                            <option value="node">Node.js</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="python">Python</option>
+                            <option value="mobile">Mobile</option>
+                        </select>
+
+                        <select name="ubicacion" className="filter__box" id="ubicacion">
+                            <option value="">Ubicación</option>
+                            <option value="remoto">Remoto</option>
+                            <option value="cdmx">Ciudad de México</option>
+                            <option value="guadalajara">Guadalajara</option>
+                            <option value="bsas">Buenos Aires</option>
+                            <option value="barcelona">Barcelona</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="bogota">Bogotá</option>
+                            <option value="santiago">Santiago de Chile</option>
+                            <option value="monterrey">Monterrey</option>
+                            <option value="lima">Lima</option>
+                        </select>
+                        
+
+                        <select name="nivel" className="filter__box" id="nivel">
+                            <option value="">Nivel de experiencia</option>
+                            <option value="junior">Junior</option>
+                            <option value="mid-level">Mid-level</option>
+                            <option value="senior">Senior</option>
+                        </select>
+                    </div>
+                </form>
+            </section>
+
+            <section className="search__results">
+                <h2>Resultados de búsqueda</h2>
+
+                <div className="search__results--cards">
+                </div>
+            </section>
+
+            <nav className="pagination">
+                <button className="slider__btn slider__btn--left"></button>
+                <ul className="pagination__list">
+                    <li><button className="page page--1 active">1</button></li>
+                    <li><button className="page page--2">2</button></li>
+                    <li><button className="page page--3">3</button></li>
+                    <li><button className="page page--4">4</button></li>
+                    <li><button className="page page--5">5</button></li>
+                </ul>
+                <button className="slider__btn slider__btn--right"></button>
+            </nav>
+        </main>
+    </>
+  );
+}
+
+export default App;
