@@ -1,4 +1,16 @@
-export default function JobCard ({ job }) {
+import { useState } from "react";
+
+export function JobCard ({ job }) {
+  const [isApplied, setIsApplied] = useState(false);
+
+  const handleApply = function(e) {
+    e.preventDefault();
+    setIsApplied(true);
+  }
+
+  const buttonClasses = isApplied ? 'apply__btn--active' : 'apply__btn';
+  const buttonLabel = isApplied ? 'Aplicado' : 'Aplicar';
+
   return (
     <>
       <article
@@ -17,10 +29,11 @@ export default function JobCard ({ job }) {
 
         <div className="search__result--card__cta">
           <a
-            className="apply__btn"
+            className={`apply__btn ${buttonClasses}`}
             href="#"
+            onClick={handleApply}
           >
-            Aplicar
+            {buttonLabel}
           </a>
         </div>
       </article>

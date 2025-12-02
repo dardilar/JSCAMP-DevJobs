@@ -186,7 +186,6 @@ body {
 .search__input {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 80%;
   margin-top: 2.4rem;
   padding: 1.2rem 1.6rem;
@@ -318,11 +317,6 @@ body {
   }
 }
 
-/* PAGINATION */
-.pagination {
-  margin-bottom: 2.6rem;
-}
-
 .search__result--card__cta {
   transition: transform 0.2s ease;
 
@@ -330,79 +324,6 @@ body {
     transform: scale(0.95);
   }
 }
-
-.apply__btn {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--text-primary);
-  background-color: #1173D4;
-  padding: 1.2rem 2.2rem;
-  border-radius: 0.8rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: var(--primary-hover);
-  }
-}
-
-/* PAGINATION */
-.pagination {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 2rem;
-  max-width: 80%;
-  margin: 2rem auto;
-}
-
-.pagination__list {
-  display: flex;
-  gap: 0.8rem;
-  list-style: none;
-}
-
-.page {
-  padding: 1.2rem 1.6rem;
-  border-radius: 0.8rem;
-  background-color: var(--background);
-  color: var(--text-primary);
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: var(--primary-hover);
-  }
-}
-
-.slider__btn {
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background-color: var(--background);
-  cursor: pointer;
-  border: none;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.8;
-  }
-}
-
-.active {
-  background-color: var(--primary-light);
-  pointer-events: none;
-}
-
-.slider__btn--left {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2'%3e%3cpath d='M15 18l-6-6 6-6'/%3e%3c/svg%3e");
-}
-
-.slider__btn--right {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2'%3e%3cpath d='M9 18l6-6-6-6'/%3e%3c/svg%3e");
-}
-
 
 /* ========================================
    DETALLES.HTML STYLES
@@ -512,6 +433,38 @@ body {
 
   &:hover {
     background-color: #4caf50;
+  }
+}
+.search__input--container {
+  display: flex;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: 1.5rem;
+  white-space: nowrap;
+
+  &:hover, &:focus {
+    background-color: var(--primary-hover);
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  &:active { 
+    transform: scale(0.90)
+  }
+
+  &:disabled {
+    opacity: .5;
+    pointer-events: none;
   }
 }
 
