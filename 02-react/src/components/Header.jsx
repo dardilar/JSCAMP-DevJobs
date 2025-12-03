@@ -26,12 +26,12 @@ export function Header() {
 
             <ul className="nav__links">
               <li className="nav__item">
-                <a className="nav__link" href="#">
+                <a className="nav__link" href="/">
                   Inicio
                 </a>
               </li>
               <li className="nav__item">
-                <a className="nav__link" href="./resultados.html">
+                <a className="nav__link" href="/search">
                   Empleos
                 </a>
               </li>

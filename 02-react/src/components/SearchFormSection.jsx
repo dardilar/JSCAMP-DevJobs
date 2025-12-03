@@ -8,9 +8,10 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
   const idExperience= useId();
 
   const handleSubmit = function (e) {
+    console.log('Form changed');
     e.preventDefault();
     
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
 
     const filters = {
       search: formData.get(idText),
@@ -38,7 +39,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
           action=""
           name={idForm}
           id="search__form"
-          onSubmit={handleSubmit}
+          onChange={handleSubmit}
         >
           <div className="search__input">
             <svg
@@ -61,12 +62,10 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             <input
               type="text"
               name={idText}
-              //TODO: Ask why'useId' is in name and we are not using as well in id one
               id="search"
               placeholder="Buscar trabajos, empresas o habilidades"
               onChange={handleTextChange}
             />
-          <button type="submit">Buscar</button>
           </div>
 
           <div className="search__filters">
