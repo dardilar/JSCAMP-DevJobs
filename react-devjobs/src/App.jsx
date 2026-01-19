@@ -7,6 +7,10 @@ import { JobListings } from "./components/JobListings.jsx";
 import { JobCard } from "./components/JobCard.jsx";
 
 function App() {
+  const handlePageChange = function(page) {
+    console.log('Cambiando la página a:', page);
+  }
+
   return (
     <>
       <Header />
@@ -16,7 +20,7 @@ function App() {
 
         <section className="listing-container">
           <JobListings />
-          <Pagination currentPage={1} totalPages={5} />
+          <Pagination currentPage={3} totalPages={5} onPageChange={handlePageChange} />
         </section>
       </main>
 
