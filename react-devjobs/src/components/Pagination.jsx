@@ -1,11 +1,16 @@
-export function Pagination({ currentPage, totalPages }) {
-  // Generar un array de páginas para mostrar
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-  console.log(pages);
-  
+export function Pagination({ currentPage = 1, totalPages = 5 }) {
+  // Generate an array of pages to display
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1); // [1, 2, 3, 4, 5]
+
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPages;
+
+  const stylePrevButton = isFirstPage ? { pointerEvents: "none", opacity: 0.5 } : {};
+  const styleNextButton = isLastPage ? { pointerEvents: "none", opacity: 0.5 } : {};
+
   return (
     <nav className="pagination">
-      <a href="#">
+      <a href="#" style={stylePrevButton}>
         <svg
           width="16"
           height="16"
@@ -20,16 +25,18 @@ export function Pagination({ currentPage, totalPages }) {
           <path d="M15 6l-6 6l6 6" />
         </svg>
       </a>
-      
-      <a className="is-active" href="#">
-        1
-      </a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
 
-      <a href="#">
+      {pages.map((page) => (
+        <a
+          key={page}
+          href="#"
+          className={page === currentPage ? "is-active" : ""}
+        >
+          {page}
+        </a>
+      ))}
+
+      <a href="#" style={styleNextButton}>
         <svg
           width="16"
           height="16"
