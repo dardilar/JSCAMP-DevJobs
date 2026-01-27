@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Pagination } from "../components/Pagination.jsx";
 import { SearchFormSection } from "../components/SearchFormSection.jsx";
@@ -60,6 +60,11 @@ export function SearchPage() {
     setCurrentPage(1);
     setTextToFilter(text);
   };
+
+  // useEffect Hook
+  useEffect(() => {
+    document.title = `Results: ${jobsWithTextFilter.length}, Page: ${currentPage}`;
+  }, [currentPage, jobsWithTextFilter])
 
   // Render
   return (
