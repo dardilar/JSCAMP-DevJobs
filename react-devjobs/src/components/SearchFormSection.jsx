@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { useSearchForm } from "../hooks/useSearchForm.jsx";
 
 export function SearchFormSection({ onSearch, onTextFilter }) {
   const idText = useId();
@@ -6,24 +7,7 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const handleSubmit = function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(e.currentTarget)
-
-    const filters = {
-      technology: formData.get(idTechnology),
-      location: formData.get(idLocation),
-      experienceLevel: formData.get(idExperienceLevel),
-    }
-
-    onSearch(filters);
-  }
-
-  const handleTextChange = function(e) {
-    const text = e.target.value;
-    onTextFilter(text);
-  }
+  const { handleSubmit, handleTextChange } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter })
 
   return (
     <section className="jobs-search">
