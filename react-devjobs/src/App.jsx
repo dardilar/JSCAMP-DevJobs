@@ -5,6 +5,7 @@ import { Route } from "./components/Route.jsx";
 import { HomePage } from "./pages/Home.jsx";
 import { SearchPage } from "./pages/Search.jsx";
 import { Page404 } from "./pages/404.jsx";
+import { Contact } from "./pages/Contact.jsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/" component={HomePage} />
       <Route path="/search" component={SearchPage} />
       <Route path="*" component={Page404} />
+      <Route path="/contact" component={Contact} />
       <Footer />
     </>
   );
