@@ -8,12 +8,21 @@ import { useFilters } from "../hooks/useFilters.jsx";
 
 export function SearchPage() {
   // useFilters Hook
-  const { currentPage, jobsWithTextFilter, totalPages, pageResults, handlePageChange, handleSearch, handleTextFilter } = useFilters();
-  
+  const {
+    loading,
+    currentPage,
+    jobs,
+    total,
+    totalPages,
+    handlePageChange,
+    handleSearch,
+    handleTextFilter,
+  } = useFilters();
+
   // useEffect Hook
   useEffect(() => {
-    document.title = `Results: ${jobsWithTextFilter.length}, Page: ${currentPage}`;
-  }, [currentPage, jobsWithTextFilter]);
+    document.title = `Results: ${total}, Page: ${currentPage}`;
+  }, [currentPage, total]);
 
   // Render
   return (
@@ -24,7 +33,13 @@ export function SearchPage() {
       />
 
       <section className="listing-container">
-        <JobListings jobs={pageResults} />
+        
+        {loading ? (
+          <p>Cargando empleos...</p>
+        ) : (
+          <JobListings jobs={jobs} />
+        )}
+        
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JobsData from "../data.json";
 
 const RESULTS_PER_PAGE = 4;
@@ -14,30 +14,35 @@ export const useFilters = function () {
     experienceLevel: "",
   });
 
-  // Filters
-  const jobsFilteredByFilters = JobsData.filter((job) => {
-    return (
-      (filters.technology === "" ||
-        job.data.technology === filters.technology.toLowerCase()) &&
-      (filters.location === "" ||
-        job.data.modalidad === filters.location.toLowerCase()) &&
-      (filters.experienceLevel === "" ||
-        job.data.nivel === filters.experienceLevel.toLowerCase())
-    );
-  });
+  const [jobs, setJobs] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  const jobsWithTextFilter =
-    textToFilter === ""
-      ? jobsFilteredByFilters
-      : jobsFilteredByFilters.filter((job) => {
-          return job.titulo.toLowerCase().includes(textToFilter.toLowerCase());
-        });
+  useEffect(() => {
+    async function fetchJobs() {
+      try {
+        setLoading(true);
 
-  const totalPages = Math.ceil(jobsWithTextFilter.length / RESULTS_PER_PAGE);
-  const pageResults = jobsWithTextFilter.slice(
-    (currentPage - 1) * RESULTS_PER_PAGE,
-    currentPage * RESULTS_PER_PAGE,
-  );
+        //delay 5s
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+
+        const response = await fetch('https://jscamp-api.vercel.app/api/jobs');
+        const json = await response.json();
+        
+        setJobs(json.data);
+        setTotal(json.total);
+      } catch (error) {
+        console.error('Error fetching jobs:', error); 
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchJobs();
+  }, []);
+
+
+  const totalPages = Math.ceil(jobs.length / RESULTS_PER_PAGE);
 
   // Handlers
   // Pagination
@@ -57,10 +62,11 @@ export const useFilters = function () {
   };
 
   return {
+    loading,
     currentPage,
-    jobsWithTextFilter,
+    jobs,
+    total,
     totalPages,
-    pageResults,
     handlePageChange,
     handleSearch,
     handleTextFilter,
