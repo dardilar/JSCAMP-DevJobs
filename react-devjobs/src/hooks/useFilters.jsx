@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import JobsData from "../data.json";
 
 const RESULTS_PER_PAGE = 4;
 
@@ -83,5 +82,6 @@ export const useFilters = function () {
     handlePageChange,
     handleSearch,
     handleTextFilter,
+    filters,
   };
 };

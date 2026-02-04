@@ -17,6 +17,7 @@ export function SearchPage() {
     handlePageChange,
     handleSearch,
     handleTextFilter,
+    filters,
   } = useFilters();
 
   // useEffect Hook
@@ -30,6 +31,7 @@ export function SearchPage() {
       <SearchFormSection
         onSearch={handleSearch}
         onTextFilter={handleTextFilter}
+        filters={filters}
       />
 
       <section className="listing-container">

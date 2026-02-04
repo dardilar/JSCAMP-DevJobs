@@ -1,13 +1,34 @@
 import { useId } from "react";
 import { useSearchForm } from "../hooks/useSearchForm.jsx";
 
-export function SearchFormSection({ onSearch, onTextFilter }) {
+export function SearchFormSection({ onSearch, onTextFilter, filters }) {
   const idText = useId();
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
 
-  const { handleSubmit, handleTextChange } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, onSearch, onTextFilter })
+  const { handleSubmit, handleTextChange } = useSearchForm({
+    idTechnology,
+    idLocation,
+    idExperienceLevel,
+    onSearch,
+    onTextFilter,
+  });
+
+  const handleClearFilters = function () {
+    onSearch({
+      technology: "",
+      location: "",
+      experienceLevel: "",
+    });
+
+    onTextFilter("");
+
+    const form = document.getElementById("empleos-search-form");
+    if (form) {
+      form.reset();
+    }
+  }
 
   return (
     <section className="jobs-search">
@@ -77,6 +98,13 @@ export function SearchFormSection({ onSearch, onTextFilter }) {
             <option value="senior">Senior</option>
             <option value="lead">Lead</option>
           </select>
+
+          {
+            (filters.technology || filters.location || filters.experienceLevel) && (
+              <button type="button" onClick={handleClearFilters}>Eliminar filtros</button>
+            )
+          }
+
         </div>
       </form>
 
