@@ -20,14 +20,12 @@ export function SearchPage() {
     filters,
   } = useFilters();
 
-  // useEffect Hook
-  useEffect(() => {
-    document.title = `Results: ${total}, Page: ${currentPage}`;
-  }, [currentPage, total]);
+  const title = loading ? "Cargando empleos..." : `Results: ${total}, Page: ${currentPage}`;
 
   // Render
   return (
     <main>
+      <title>{title}</title>
       <SearchFormSection
         onSearch={handleSearch}
         onTextFilter={handleTextFilter}
@@ -36,6 +34,8 @@ export function SearchPage() {
 
       <section className="listing-container">
         
+        <h2>Resultados de búsqueda</h2>
+
         {loading ? (
           <p>Cargando empleos...</p>
         ) : (

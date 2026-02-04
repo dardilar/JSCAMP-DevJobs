@@ -13,6 +13,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
     idExperienceLevel,
     onSearch,
     onTextFilter,
+    idText
   });
 
   const handleClearFilters = function () {
