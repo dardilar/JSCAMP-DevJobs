@@ -19,14 +19,27 @@ export const useFilters = function () {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+  setCurrentPage(1)
+}, [textToFilter, filters.technology, filters.location, filters.experienceLevel])
+
+  useEffect(() => {
     async function fetchJobs() {
       try {
         setLoading(true);
 
-        //delay 5s
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        const params = new URLSearchParams();
+        if(textToFilter) params.append('text', textToFilter);
+        if(filters.technology) params.append('technology', filters.technology);
+        if(filters.location) params.append('type', filters.location);
+        if(filters.experienceLevel) params.append('level', filters.experienceLevel);
 
-        const response = await fetch('https://jscamp-api.vercel.app/api/jobs');
+        const offset = (currentPage - 1) * RESULTS_PER_PAGE;
+        params.append('limit', RESULTS_PER_PAGE);
+        params.append('offset', offset);
+
+        const queryParams = params.toString();
+
+        const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`);
         const json = await response.json();
         
         setJobs(json.data);
@@ -39,10 +52,10 @@ export const useFilters = function () {
     }
 
     fetchJobs();
-  }, []);
+  }, [filters, textToFilter, currentPage]);
 
 
-  const totalPages = Math.ceil(jobs.length / RESULTS_PER_PAGE);
+  const totalPages = Math.ceil(total / RESULTS_PER_PAGE);
 
   // Handlers
   // Pagination
