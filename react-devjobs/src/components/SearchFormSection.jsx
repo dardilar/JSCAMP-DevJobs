@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useRef } from "react";
 import { useSearchForm } from "../hooks/useSearchForm.jsx";
 
 export function SearchFormSection({ onSearch, onTextFilter, filters }) {
@@ -6,6 +6,8 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
   const idTechnology = useId();
   const idLocation = useId();
   const idExperienceLevel = useId();
+  const inputRef = useRef();
+  const formRef = useRef();
 
   const { handleSubmit, handleTextChange } = useSearchForm({
     idTechnology,
@@ -13,7 +15,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
     idExperienceLevel,
     onSearch,
     onTextFilter,
-    idText
+    idText,
   });
 
   const handleClearFilters = function () {
@@ -23,20 +25,26 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
       experienceLevel: "",
     });
 
+    inputRef.current.value = "";
     onTextFilter("");
 
-    const form = document.getElementById("empleos-search-form");
+    const form = formRef.current;
     if (form) {
       form.reset();
     }
-  }
+  };
 
   return (
     <section className="jobs-search">
       <h1>Encuentra tu próximo trabajo</h1>
       <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-      <form id="empleos-search-form" role="search" onChange={handleSubmit}>
+      <form
+        id="empleos-search-form"
+        role="search"
+        onChange={handleSubmit}
+        ref={formRef}
+      >
         <div className="search-bar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,12 +64,20 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
           </svg>
 
           <input
+            ref={inputRef}
             name={idText}
             id="empleos-search-input"
             type="text"
             placeholder="Buscar trabajos, empresas o habilidades"
             onChange={handleTextChange}
           />
+          
+          {
+            (filters.technology || filters.location || filters.experienceLevel || inputRef.current.value) && (
+            <button type="button" onClick={handleClearFilters}>
+              ❌
+            </button>
+          )}
         </div>
 
         <div className="search-filters">
@@ -100,11 +116,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
             <option value="lead">Lead</option>
           </select>
 
-          {
-            (filters.technology || filters.location || filters.experienceLevel) && (
-              <button type="button" onClick={handleClearFilters}>Eliminar filtros</button>
-            )
-          }
+
 
         </div>
       </form>

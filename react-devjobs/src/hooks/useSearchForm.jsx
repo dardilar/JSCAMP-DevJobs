@@ -1,8 +1,8 @@
-import { useState } from "react";
-
-let timeoutId = null;
+import { useState, useRef } from "react";
 
 export const useSearchForm = function({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter }) {
+  const timeoutId = useRef(null);
+  
   const [searchText, setSearchText] = useState("");
 
   const handleSubmit = function(e) {
@@ -28,9 +28,9 @@ export const useSearchForm = function({ idTechnology, idLocation, idExperienceLe
     setSearchText(text); // Update input immediately
 
     // Debounce: Cancel previous timeout
-    if(timeoutId) clearTimeout(timeoutId);
+    if(timeoutId.current) clearTimeout(timeoutId.current);
     
-    timeoutId = setTimeout(() => {
+    timeoutId.current = setTimeout(() => {
       onTextFilter(text);
     }, 500);
   }
