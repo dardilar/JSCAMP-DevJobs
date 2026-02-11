@@ -1,7 +1,7 @@
 import { useId, useRef } from "react";
 import { useSearchForm } from "../hooks/useSearchForm.jsx";
 
-export function SearchFormSection({ onSearch, onTextFilter, filters }) {
+export function SearchFormSection({ onSearch, onTextFilter, filters, initialText }) {
   const idText = useId();
   const idTechnology = useId();
   const idLocation = useId();
@@ -70,10 +70,11 @@ export function SearchFormSection({ onSearch, onTextFilter, filters }) {
             type="text"
             placeholder="Buscar trabajos, empresas o habilidades"
             onChange={handleTextChange}
+            defaultValue={initialText}
           />
-          
+
           {
-            (filters.technology || filters.location || filters.experienceLevel || inputRef.current.value) && (
+            (filters.technology || filters.location || filters.experienceLevel || inputRef.current?.value) && (
             <button type="button" onClick={handleClearFilters}>
               ❌
             </button>

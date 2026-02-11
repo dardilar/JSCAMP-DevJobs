@@ -1,21 +1,35 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "./useRouter.jsx"
 
 const RESULTS_PER_PAGE = 4;
 
 export const useFilters = function () {
   // States
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page') || 1;
+    return Number.isNaN(page) ? page : 1;
+  });
 
-  const [textToFilter, setTextToFilter] = useState("");
-  const [filters, setFilters] = useState({
-    technology: "",
-    location: "",
-    experienceLevel: "",
+  const [textToFilter, setTextToFilter] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('text') || '';
+  });
+
+  const [filters, setFilters] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      technology: params.get('technology') || '',
+      location: params.get('type') || '',
+      experienceLevel: params.get('level') || '',
+    };
   });
 
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const { navigateTo } = useRouter();
 
   useEffect(() => {
   setCurrentPage(1)
@@ -53,6 +67,20 @@ export const useFilters = function () {
     fetchJobs();
   }, [filters, textToFilter, currentPage]);
 
+  useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if(textToFilter) params.append('text', textToFilter);
+    if(filters.technology) params.append('technology', filters.technology);
+    if(filters.location) params.append('type', filters.location);
+    if(filters.experienceLevel) params.append('level', filters.experienceLevel);
+    if(currentPage > 1) params.append('page', currentPage);
+
+    const newUrl = params.toString()? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+    navigateTo(newUrl);
+    
+  }, [filters, textToFilter, currentPage, navigateTo]);
+
 
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE);
 
@@ -83,5 +111,6 @@ export const useFilters = function () {
     handleSearch,
     handleTextFilter,
     filters,
+    textToFilter
   };
 };

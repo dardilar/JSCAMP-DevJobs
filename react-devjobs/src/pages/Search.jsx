@@ -16,6 +16,7 @@ export function SearchPage() {
     handleSearch,
     handleTextFilter,
     filters,
+    textToFilter
   } = useFilters();
 
   const title = loading ? "Cargando empleos..." : `Results: ${total}, Page: ${currentPage}`;
@@ -28,6 +29,7 @@ export function SearchPage() {
         onSearch={handleSearch}
         onTextFilter={handleTextFilter}
         filters={filters}
+        initialText={textToFilter}
       />
 
       <section className="listing-container">
