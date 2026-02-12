@@ -1,4 +1,4 @@
-export function Page404() {
+export function NotFoundPage() {
     return (
         <main>
             <h1>404 - Page Not Found</h1>
