@@ -79,19 +79,23 @@ export function JobDetail() {
         </div>
 
         <header className={styles.header}>
-          <h1 className={styles.title}>{job.titulo}</h1>
-          <p className={styles.meta}>
-            {job.empresa} · {job.ubicacion}
-          </p>
+          <div>
+            <h1 className={styles.title}>{job.titulo}</h1>
+            <p className={styles.meta}>
+              {job.empresa} · {job.ubicacion}
+            </p>
+          </div>
+          <button className={styles.applyButton}>Aplicar ahora</button>
         </header>
-
-        <button className={styles.applyButton}>Aplicar ahora</button>
 
         <JobSection title="Descripción del puesto" content={job.content.description} />
         <JobSection title="Responsabilidades" content={job.content.responsibilities} />
         <JobSection title="Requisitos" content={job.content.requirements} />
         <JobSection title="Acerca de la empresa" content={job.content.about} />
 
+        <div className={styles.applyButtonWrapper}>
+          <button className={styles.applyButton}>Aplicar ahora</button>
+        </div>
       </div>
     </>
   );
