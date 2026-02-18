@@ -1,9 +1,10 @@
+import { NavLink } from "react-router";
 import { Link } from "./Link";
 
 export function Header() {
   return (
     <header>
-      <Link href="/" style={ {textDecoration:'none'} }>
+      <Link to="/" style={ {textDecoration:'none'} }>
         <h1 style={ {color:'white'} }>
           <svg
             fill="none"
@@ -22,11 +23,11 @@ export function Header() {
       </Link>
 
       <nav>
-        <Link href="./">Inicio</Link>
-        <Link href="./search">Empleos</Link>
-        <Link href="">Empresas</Link>
-        <Link href="">Salarios</Link>
-        <Link href="./contact">Contacto</Link>
+        <NavLink className={({isActive}) => isActive ? 'nav-link-active' : ''} to="./">Inicio</NavLink>
+        <NavLink className={({isActive}) => isActive ? 'nav-link-active' : ''} to="./search">Empleos</NavLink>
+        <NavLink className={({isActive}) => isActive ? 'nav-link-active' : ''} to="./contact">Contacto</NavLink>
+        <NavLink to="">Empresas</NavLink>
+        <NavLink to="">Salarios</NavLink>
       </nav>
     </header>
   );

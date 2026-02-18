@@ -477,6 +477,7 @@ article {
 }
 
 .nav-link-active {
-  color: yellow;
+  color: var(--primary);
   pointer-events: none;
+  opacity: .5;
 }

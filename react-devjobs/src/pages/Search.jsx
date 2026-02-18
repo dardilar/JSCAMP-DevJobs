@@ -4,7 +4,7 @@ import { JobListings } from "../components/JobListings.jsx";
 
 import { useFilters } from "../hooks/useFilters.jsx";
 
-export function SearchPage() {
+export default function SearchPage() {
   // useFilters Hook
   const {
     loading,

@@ -1,7 +1,7 @@
 import styles from "./Contact.module.css";
 import { useContactForm } from "../hooks/useContactForm";
 
-export function Contact() {
+export default function Contact() {
   const { contactForm, errors, handleTextChange, handleSubmit } =
     useContactForm();
 
