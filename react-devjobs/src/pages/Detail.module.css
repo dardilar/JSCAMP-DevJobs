@@ -90,6 +90,8 @@
 }
 
 .applyButton {
+  display: flex;
+  justify-self: flex-end;
   width: 100%;
   background: #09f;
   color: white;

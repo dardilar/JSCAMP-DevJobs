@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "../components/Link";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 import snarkdown from "snarkdown";
 import styles from "./Detail.module.css";
@@ -53,7 +53,7 @@ function DetailPageHeader({ job, children }) {
 }
 
 function DetailApplyButton() {
-  const { isLoogedIn } = useContext(AuthContext);
+  const { isLoogedIn } = useAuth();
   return (
       <button disabled={!isLoogedIn} className={styles.applyButton}>
         {isLoogedIn ? "Aplicar ahora" : "Inicia sesión para aplicar"}
@@ -121,6 +121,7 @@ export default function JobDetail() {
         />
         <JobSection title="Requisitos" content={job.content.requirements} />
         <JobSection title="Acerca de la empresa" content={job.content.about} />
+        <DetailApplyButton />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
-import { useContext } from "react";
+
 import { NavLink } from "react-router";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Link } from "./Link";
 
 export function Header() {
@@ -38,7 +38,7 @@ export function Header() {
 }
 
 const HeaderUserButton = function() {
-  const { isLoogedIn, login, logout } = useContext(AuthContext);
+  const { isLoogedIn, login, logout } = useAuth();
 
   return (
     isLoogedIn ? (
