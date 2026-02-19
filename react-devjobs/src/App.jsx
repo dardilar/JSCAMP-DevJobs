@@ -1,5 +1,6 @@
-import {lazy, Suspense} from "react";
+import {lazy, Suspense } from "react";
 import { Routes, Route } from "react-router";
+
 import { Header } from "./components/Header.jsx";
 import { Footer } from "./components/Footer.jsx";
 

@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "../components/Link";
+import { AuthContext } from "../context/AuthContext";
+
 import snarkdown from "snarkdown";
 import styles from "./Detail.module.css";
 
@@ -18,6 +20,44 @@ function JobSection({ title, content }) {
         }}
       />
     </section>
+  );
+}
+
+function DetailPageBreadcrumb({ job }) {
+  return (
+    <div className={styles.container}>
+      <nav className={styles.breadcrumb}>
+        <Link href="/search" className={styles.breadcrumbButton}>
+          Empleos
+        </Link>
+        <span className={styles.breadcrumbSeparator}>/</span>
+        <span className={styles.breadcrumbCurrent}>{job.titulo}</span>
+      </nav>
+    </div>
+  );
+}
+
+function DetailPageHeader({ job, children }) {
+  return (
+    <header className={styles.header}>
+      <div>
+        <h1 className={styles.title}>{job.titulo}</h1>
+        <p className={styles.meta}>
+          {job.empresa} · {job.ubicacion}
+        </p>
+      </div>
+      
+      <DetailApplyButton />
+    </header>
+  );
+}
+
+function DetailApplyButton() {
+  const { isLoogedIn } = useContext(AuthContext);
+  return (
+      <button disabled={!isLoogedIn} className={styles.applyButton}>
+        {isLoogedIn ? "Aplicar ahora" : "Inicia sesión para aplicar"}
+      </button>
   );
 }
 
@@ -68,34 +108,19 @@ export default function JobDetail() {
   return (
     <>
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 1rem" }}>
-        <div className={styles.container}>
-          <nav className={styles.breadcrumb}>
-            <Link href="/search" className={styles.breadcrumbButton}>
-              Empleos
-            </Link>
-            <span className={styles.breadcrumbSeparator}>/</span>
-            <span className={styles.breadcrumbCurrent}>{job.titulo}</span>
-          </nav>
-        </div>
+        <DetailPageBreadcrumb job={job} />
+        <DetailPageHeader job={job} />
 
-        <header className={styles.header}>
-          <div>
-            <h1 className={styles.title}>{job.titulo}</h1>
-            <p className={styles.meta}>
-              {job.empresa} · {job.ubicacion}
-            </p>
-          </div>
-          <button className={styles.applyButton}>Aplicar ahora</button>
-        </header>
-
-        <JobSection title="Descripción del puesto" content={job.content.description} />
-        <JobSection title="Responsabilidades" content={job.content.responsibilities} />
+        <JobSection
+          title="Descripción del puesto"
+          content={job.content.description}
+        />
+        <JobSection
+          title="Responsabilidades"
+          content={job.content.responsibilities}
+        />
         <JobSection title="Requisitos" content={job.content.requirements} />
         <JobSection title="Acerca de la empresa" content={job.content.about} />
-
-        <div className={styles.applyButtonWrapper}>
-          <button className={styles.applyButton}>Aplicar ahora</button>
-        </div>
       </div>
     </>
   );
