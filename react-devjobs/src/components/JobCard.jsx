@@ -1,17 +1,36 @@
 import { useState } from "react"
 import { Link } from "./Link"
 import styles from "./JobCard.module.css"
+import { useFavoritesStore } from "../store/favoritesStore"
+import { useAuthStore } from "../store/authStore"
 
-export function JobCard({ job }) {
-  const [isApplied, setIsApplied] = useState(false)
+function JobCardFavoriteButton({ jobId }) {
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const { isLoogedIn } = useAuthStore();
 
-  const handleApplyClick = () => {
-    setIsApplied(true)
-  }
+  return (
+    <button onClick={() => toggleFavorite(jobId)} aria-label={isFavorite(jobId) ? 'Quitar de favoritos' : 'Agregar a favoritos'} disabled={!isLoogedIn}>{isFavorite(jobId) ? '♥️' : '🤍'}</button>
+  )
+}
+
+function JobCardApplyButton({ jobId }) {
+  const [isApplied, setIsApplied] = useState(false);
+  const { isLoogedIn } = useAuthStore();
 
   const buttonClasses = isApplied ? 'button-apply-job is-applied' : 'button-apply-job'
   const buttonText = isApplied ? 'Aplicado' : 'Aplicar'
 
+  const handleApplyClick = () => {
+    console.log('Aplicando a la oferta', jobId)
+    setIsApplied(true)
+  }
+
+  return (
+    <button className={buttonClasses} onClick={handleApplyClick} disabled={!isLoogedIn}>{buttonText}</button>
+  )
+}
+
+export function JobCard({ job }) {
   return (
     <article 
       className="job-listing-card"
@@ -25,7 +44,8 @@ export function JobCard({ job }) {
         <p>{job.descripcion}</p>
       </div>
       <div className={styles.actions}>
-        <button className={buttonClasses} onClick={handleApplyClick}>{buttonText}</button>
+        <JobCardApplyButton jobId={job.id} />
+        <JobCardFavoriteButton jobId={job.id} />
         <Link to={`/jobs/${job.id}`} className={styles.details}>Ver detalles</Link>
       </div>
     </article>

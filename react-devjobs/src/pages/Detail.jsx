@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Link } from "../components/Link";
 import { useAuthStore } from "../store/authStore";
+import { useFavoritesStore } from "../store/favoritesStore";
 
 import snarkdown from "snarkdown";
 import styles from "./Detail.module.css";
@@ -47,7 +48,10 @@ function DetailPageHeader({ job, children }) {
         </p>
       </div>
       
-      <DetailApplyButton />
+      <div className={styles.actions}>
+        <DetailApplyButton />
+        <DetailFavoriteButton jobId={job.id} />
+      </div>
     </header>
   );
 }
@@ -59,6 +63,14 @@ function DetailApplyButton() {
         {isLoogedIn ? "Aplicar ahora" : "Inicia sesión para aplicar"}
       </button>
   );
+}
+
+function DetailFavoriteButton({ jobId }) {
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+
+  return (
+    <button onClick={() => toggleFavorite(jobId)} aria-label={isFavorite(jobId) ? 'Quitar de favoritos' : 'Agregar a favoritos'}>{isFavorite(jobId) ? '♥️' : '🤍'}</button>
+  )
 }
 
 export default function JobDetail() {
