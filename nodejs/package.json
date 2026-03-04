@@ -1,4 +1,7 @@
 {
     "name": "ejemplos-de-nodejs",
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "ms": "2.1.3"
+    }
 }
