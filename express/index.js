@@ -1,8 +1,29 @@
 import express from "express";
-import jobs from "./jobs.json" with { type: "json" };
+import cors from "cors";
 
-const PORT = process.env.PORT ?? 1234;
+import jobs from "./jobs.json" with { type: "json" };
+import { DEFAULTS } from "./config.js";
+
+const PORT = process.env.PORT ?? DEFAULTS.PORT;
 const app = express();
+
+const ACCEPTED_ORIGINS = [
+  'http://localhost:5173',
+  'http://localhost:3000'
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+     if(ACCEPTED_ORIGINS.includes(origin)) {
+      callback(null, true);
+     } else {
+      callback(new Error('Not allowed by CORS'));
+     }
+    }
+}));
+
+app.use(express.json());
 
 app.use((req, res, next) => {
   const timeString = new Date().toLocaleTimeString();
@@ -21,8 +42,13 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.get("/get-jobs", (req, res) => {
-  const { text, title, limit, offset, technology, level } = req.query;
+// CRUD: Create, Read, Update, Delete
+
+app.get("/jobs", (req, res) => {
+  const { text, title, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.OFFSET_PAGINATION, technology, level } = req.query;
+  
+  const limitNumber = Number(limit);
+  const offsetNumber = Number(offset);
   let filteredJobs = jobs;
 
   if (text) {
@@ -43,35 +69,52 @@ app.get("/get-jobs", (req, res) => {
     );
   }
 
-  return res.json(filteredJobs);
+  const paginatedJobs = filteredJobs.slice(offsetNumber, offsetNumber + limitNumber);
+
+  return res.json({data: paginatedJobs, total: filteredJobs.length, limit: limitNumber, offset: offsetNumber});
 });
 
-app.get("/get-job/:id", (req, res) => {
+app.get("/jobs/:id", (req, res) => {
   const { id } = req.params;
-  const idNumber = Number(id);
+  const job = jobs.find((job) => job.id === id);
 
-  return res.json({ id: idNumber, title: "Developer" });
+  if(!job) {
+    return res.status(404).json({ error: "Job not found" });
+  }
+
+  return res.json(job);
 });
 
-//Opcional -> /acd o /abcd
-app.get("/a{b}cd", (req, res) => {
-  return res.send("ACD o ABCD");
+app.post("/jobs", (req, res) => {
+  const { titulo, empresa, ubicacion, descripcion, data, content } = req.body;
+
+  const newJob = {
+    id: crypto.randomUUID(),
+    titulo,
+    empresa,
+    ubicacion,
+    descripcion,
+    data,
+    content,
+  };
+
+  jobs.push(newJob); // TODO: Guardar en base de datos con un INSERT
+  
+  return res.status(201).json(newJob);
 });
 
-//Comodin -> /a*cd
-app.get("/a*cd", (req, res) => {
-  return res.send("Cualquier cosa que empiece con A y termine con CD");
+// Reemplazar un recurso completo
+app.put("/jobs/:id", (req, res) => {
+  //TODO: Implementar actualización de trabajo
 });
 
-//Rutas más largas que no sabemos como terminan
-app.get("/file/*filename", (req, res) => {
-  const { filename } = req.params;
-  return res.send(`Ruta file: ${filename}`);
+// Actualizar parcialmente un recurso
+app.patch("/jobs/:id", (req, res) => {
+  //TODO: Implementar actualización parcial de trabajo
 });
 
-//Usando Regex
-app.get(/.*fly$/, (req, res) => {
-  return res.send("Ruta fly");
+app.delete("/jobs/:id", (req, res) => {
+  //TODO: Implementar eliminación de trabajo
 });
 
 app.listen(PORT, () => {
