@@ -1,4 +1,5 @@
 import jobs from "../jobs.json" with { type: "json" };
+import { DEFAULTS } from "../config.js";
 
 export class JobModel {
   static async getAll({ text, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.OFFSET_PAGINATION, technology }) {
@@ -37,7 +38,7 @@ export class JobModel {
     return job;
   }
 
-  static async create(data) {
+  static async create({ titulo, empresa, ubicacion, descripcion, data, content }) {
     const newJob = {
       id: crypto.randomUUID(),
       titulo,
@@ -48,7 +49,7 @@ export class JobModel {
       content,
     };
 
-    jobs.push(newJob); // TODO: Guardar en base de datos con un INSERT
+    jobs.push(newJob);
     return newJob;
   }
 }

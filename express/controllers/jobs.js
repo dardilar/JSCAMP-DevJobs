@@ -1,3 +1,6 @@
+import { DEFAULTS } from "../config.js";
+import { JobModel } from "../models/job.js";
+
 export class JobController {
   static async getHealth(req, res) {
     return res.json({
@@ -27,8 +30,8 @@ export class JobController {
     return res.json({
       data: paginatedJobs,
       total: paginatedJobs.length,
-      limit: limitNumber,
-      offset: offsetNumber,
+      limit,
+      offset,
     });
   }
 
