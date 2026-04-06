@@ -11,6 +11,10 @@ app.use(express.json());
 
 app.use('/jobs', jobsRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
-});
+if(process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port http://localhost:${PORT}`);
+  });
+}
+
+export default app;
