@@ -21,7 +21,7 @@ export class JobModel {
       const searchTech = technology.toLowerCase();
 
       filteredJobs = filteredJobs.filter((job) =>
-        job.tecnologias.toLowerCase().includes(searchTech),
+        job.data.technology.includes(searchTech),
       );
     }
 
