@@ -33,7 +33,7 @@ describe('GET /jobs', () => {
     assert.ok(Array.isArray(json.data), 'La respuesta debe ser un array');
   });
 
-  test('Debe filtrar jobs por tecnologia', async () => {
+  test('Debe filtrar trabajos por tecnología', async () => {
     const tech = 'react';
     const response = await fetch(`${BASE_URL}/jobs?technology=${tech}`);
     assert.strictEqual(response.status, 200);
