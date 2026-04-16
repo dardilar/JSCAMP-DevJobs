@@ -1,7 +1,6 @@
 import * as z from "zod";
 
 const jobSchema = z.object({
-  id: z.string().uuid(),
   titulo: z.string(),
   empresa: z.string(),
   ubicacion: z.string(),
