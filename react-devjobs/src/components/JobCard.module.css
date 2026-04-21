@@ -13,6 +13,8 @@
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
+  align-items: stretch;
+  min-width: 120px;
 }
 
 .details {

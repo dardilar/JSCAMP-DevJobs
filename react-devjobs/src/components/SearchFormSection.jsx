@@ -82,7 +82,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters, initialText
         </div>
 
         <div className="search-filters">
-          <select name={idTechnology} id="filter-technology" value={filters.technology}>
+          <select name={idTechnology} id="filter-technology" value={filters.technology} onChange={handleSubmit}>
             <option value="">Tecnología</option>
             <optgroup label="Tecnologías populares">
               <option value="javascript">JavaScript</option>
@@ -100,7 +100,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters, initialText
             <option value="php">PHP</option>
           </select>
 
-          <select name={idLocation} id="filter-location" value={filters.location}>
+          <select name={idLocation} id="filter-location" value={filters.location} onChange={handleSubmit}>
             <option value="">Ubicación</option>
             <option value="remoto">Remoto</option>
             <option value="cdmx">Ciudad de México</option>
@@ -109,7 +109,7 @@ export function SearchFormSection({ onSearch, onTextFilter, filters, initialText
             <option value="barcelona">Barcelona</option>
           </select>
 
-          <select name={idExperienceLevel} id="filter-experience-level" value={filters.experienceLevel}>
+          <select name={idExperienceLevel} id="filter-experience-level" value={filters.experienceLevel} onChange={handleSubmit}>
             <option value="">Nivel de experiencia</option>
             <option value="junior">Junior</option>
             <option value="mid">Mid-level</option>

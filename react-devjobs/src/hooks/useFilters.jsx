@@ -10,7 +10,7 @@ export const useFilters = function () {
   // States
   const [currentPage, setCurrentPage] = useState(() => {
     const page = searchParams.get('page') || 1;
-    return Number.isNaN(page) ? page : 1;
+    return Number.isNaN(Number(page)) ? 1 : Number(page);
   });
 
   const [textToFilter, setTextToFilter] = useState(() => searchParams.get('text') || '');

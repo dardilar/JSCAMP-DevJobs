@@ -188,7 +188,8 @@ form span {
   flex-shrink: 0;
 }
 
-form input[type="text"] {
+form input[type="text"],
+form input[type="search"] {
   flex: 1;
   background: transparent;
   border: none;
@@ -199,7 +200,8 @@ form input[type="text"] {
   font-family: inherit;
 }
 
-form input[type="text"]::placeholder {
+form input[type="text"]::placeholder,
+form input[type="search"]::placeholder {
   color: #64748b;
 }
 
@@ -402,10 +404,9 @@ article {
     border-radius: 0;
     border-bottom: 1px solid rgba(255, 255, 255, .3);
     margin: 0;
-
     display: flex;
-    /* valor original */
     align-items: start;
+    justify-content: space-between;
     gap: 1rem;
 
     &.is-hidden {

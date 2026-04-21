@@ -25,12 +25,13 @@ export class JobModel {
       );
     }
 
+    const total = filteredJobs.length;
     const paginatedJobs = filteredJobs.slice(
       offsetNumber,
       offsetNumber + limitNumber,
     );
 
-    return paginatedJobs;
+    return { data: paginatedJobs, total };
   }
 
   static async getById(id) {

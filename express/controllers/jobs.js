@@ -19,7 +19,7 @@ export class JobController {
       level,
     } = req.query;
 
-    const paginatedJobs = await JobModel.getAll({
+    const { data, total } = await JobModel.getAll({
       text,
       limit,
       offset,
@@ -28,8 +28,8 @@ export class JobController {
     });
 
     return res.json({
-      data: paginatedJobs,
-      total: paginatedJobs.length,
+      data,
+      total,
       limit,
       offset,
     });
