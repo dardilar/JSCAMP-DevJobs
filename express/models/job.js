@@ -2,7 +2,7 @@ import jobs from "../jobs.json" with { type: "json" };
 import { DEFAULTS } from "../config.js";
 
 export class JobModel {
-  static async getAll({ text, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.OFFSET_PAGINATION, technology }) {
+  static async getAll({ text, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.OFFSET_PAGINATION, technology, level, location }) {
     let filteredJobs = jobs;
     const limitNumber = Number(limit);
     const offsetNumber = Number(offset);
@@ -22,6 +22,22 @@ export class JobModel {
 
       filteredJobs = filteredJobs.filter((job) =>
         job.data.technology.includes(searchTech),
+      );
+    }
+
+    if (location) {
+      const searchLocation = location.toLowerCase();
+
+      filteredJobs = filteredJobs.filter((job) =>
+        job.data.modalidad.toLowerCase() === searchLocation,
+      );
+    }
+
+    if (level) {
+      const searchLevel = level.toLowerCase();
+
+      filteredJobs = filteredJobs.filter((job) =>
+        job.data.nivel.toLowerCase() === searchLevel,
       );
     }
 

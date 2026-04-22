@@ -17,6 +17,7 @@ export class JobController {
       offset = DEFAULTS.OFFSET_PAGINATION,
       technology,
       level,
+      type,
     } = req.query;
 
     const { data, total } = await JobModel.getAll({
@@ -25,6 +26,7 @@ export class JobController {
       offset,
       technology,
       level,
+      location: type,
     });
 
     return res.json({

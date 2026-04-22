@@ -118,6 +118,16 @@
   background: #666;
 }
 
+.isApplied {
+  background: #28a745;
+  cursor: default;
+  pointer-events: none;
+}
+
+.isApplied:hover {
+  background: #28a745;
+}
+
 .actions {
   display: flex;
   flex-direction: column;
