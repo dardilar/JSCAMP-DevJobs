@@ -21,6 +21,6 @@ type UserBirthday = {
     birthday: Date;
 }
 
-export type UserEntity = User & UserId & UserBirthday; // Debe tener todos los campos de User, UserId y UserBirthday
+export type UserEntity = User & UserId & UserBirthday; // UserEntity debe tener todos los campos de User, UserId y UserBirthday
 
 
