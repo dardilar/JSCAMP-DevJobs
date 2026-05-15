@@ -7,6 +7,8 @@ import { useFavoritesStore } from "../store/favoritesStore";
 import snarkdown from "snarkdown";
 import styles from "./Detail.module.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function JobSection({ title, content }) {
   const html = snarkdown(content);
 
@@ -47,10 +49,11 @@ function DetailPageHeader({ job, children }) {
           {job.empresa} · {job.ubicacion}
         </p>
       </div>
-      
+
       <div className={styles.actions}>
         <DetailApplyButton />
         <DetailFavoriteButton jobId={job.id} />
+        <AISummary jobId={job.id} />
       </div>
     </header>
   );
@@ -60,17 +63,27 @@ function DetailApplyButton() {
   const { isLoogedIn } = useAuthStore();
   const [isApplied, setIsApplied] = useState(false);
 
-  const buttonText = !isLoogedIn ? "Inicia sesión para aplicar" : isApplied ? "Aplicado" : "Aplicar ahora";
-  const buttonClass = isApplied ? `${styles.applyButton} ${styles.isApplied}` : styles.applyButton;
+  const buttonText = !isLoogedIn
+    ? "Inicia sesión para aplicar"
+    : isApplied
+      ? "Aplicado"
+      : "Aplicar ahora";
+  const buttonClass = isApplied
+    ? `${styles.applyButton} ${styles.isApplied}`
+    : styles.applyButton;
 
   const handleApplyClick = () => {
     setIsApplied(true);
   };
 
   return (
-      <button disabled={!isLoogedIn} className={buttonClass} onClick={handleApplyClick}>
-        {buttonText}
-      </button>
+    <button
+      disabled={!isLoogedIn}
+      className={buttonClass}
+      onClick={handleApplyClick}
+    >
+      {buttonText}
+    </button>
   );
 }
 
@@ -78,8 +91,60 @@ function DetailFavoriteButton({ jobId }) {
   const { toggleFavorite, isFavorite } = useFavoritesStore();
 
   return (
-    <button onClick={() => toggleFavorite(jobId)} aria-label={isFavorite(jobId) ? 'Quitar de favoritos' : 'Agregar a favoritos'}>{isFavorite(jobId) ? '♥️' : '🤍'}</button>
-  )
+    <button
+      onClick={() => toggleFavorite(jobId)}
+      aria-label={
+        isFavorite(jobId) ? "Quitar de favoritos" : "Agregar a favoritos"
+      }
+    >
+      {isFavorite(jobId) ? "♥️" : "🤍"}
+    </button>
+  );
+}
+
+function AISummary({ jobId }) {
+  const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const generateSummary = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${API_URL}/ai/summary/${jobId}`);
+      if (!response.ok) {
+        throw new Error("Summary not found");
+      }
+      const data = await response.json();
+      setSummary(data.summary);
+    } catch (error) {
+      setError("Error al generar el resumen");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (summary) {
+    return (
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Resumen con IA</h2>
+        <div className={styles.sectionContent}>
+          <p>{summary}</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <button
+      onClick={generateSummary}
+      disabled={loading}
+      className={styles.aiSummaryButton}
+    >
+      {loading ? "Generando..." : "Generar resumen"}
+    </button>
+  );
 }
 
 export default function JobDetail() {
@@ -91,7 +156,7 @@ export default function JobDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://jscamp-api.vercel.app/api/jobs/${jobId}`)
+    fetch(`${API_URL}/jobs/${jobId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Job not found");

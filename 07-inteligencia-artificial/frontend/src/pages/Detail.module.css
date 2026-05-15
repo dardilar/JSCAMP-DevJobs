@@ -133,6 +133,10 @@
   flex-direction: column;
 }
 
+.aiSummaryButton {
+  margin-top: 1rem;
+}
+
 @media (min-width: 640px) {
   .applyButton {
     width: auto;
