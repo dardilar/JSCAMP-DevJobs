@@ -103,21 +103,31 @@ function DetailFavoriteButton({ jobId }) {
 }
 
 function AISummary({ jobId }) {
-  const [summary, setSummary] = useState(null);
+  const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const generateSummary = async () => {
     setLoading(true);
     setError(null);
+    setSummary('');
 
     try {
       const response = await fetch(`${API_URL}/ai/summary/${jobId}`);
       if (!response.ok) {
         throw new Error("Summary not found");
       }
-      const data = await response.json();
-      setSummary(data.summary);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        setSummary((prev) => prev + chunk);
+      }
+
     } catch (error) {
       setError("Error al generar el resumen");
     } finally {

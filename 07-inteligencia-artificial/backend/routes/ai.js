@@ -42,8 +42,11 @@ aiRouter.get('/summary/:id', async (req, res) => {
         `Descripción: ${job.descripcion}`
     ].join('\n')
 
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+
     try {
-        const completion = await openai.chat.completions.create({
+        const stream = await openai.chat.completions.create({
             model: CONFIG.MODEL_AI,
             messages: [
                 {
@@ -54,19 +57,25 @@ aiRouter.get('/summary/:id', async (req, res) => {
                     role: "user",
                     content: prompt
                 }
-            ]
+            ],
+            stream: true
         })
         
-        console.log('OpenAI response:', completion);
-        const summary = completion.choices?.[0]?.message?.content?.trim();
-        
-        if(!summary) {
-            return res.status(500).json({ message: 'Error al generar el resumen' })
+        for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content;
+            if (content) {
+                res.write(content);
+            }
         }
-        return res.json({ summary });
+        
+        return res.end();
 
     } catch (error) {
-        console.error('Error generating summary:', error);
-        return res.status(500).json({ message: 'Error al generar el resumen' })
+        if(!res.headersSent) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(500).json({ message: 'Error al generar el resumen' })
+        }
+
+        return res.end();
     }
 })
