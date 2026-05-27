@@ -5,5 +5,5 @@ export const DEFAULTS = {
 }
 
 export const CONFIG = {
-    MODEL_AI: process.env.MODEL_AI ?? 'gpt-5.2'
+    MODEL_AI: process.env.AI_GATEWAY_API_KEY ?? 'gpt-5.2'
 }

@@ -1,7 +1,7 @@
 process.loadEnvFile();
 
 import { Router } from "express";
-import OpenAI from "openai";
+import { streamText } from "ai";
 import rateLimit from "express-rate-limit";
 import { JobModel } from "../models/job.js";
 import { CONFIG } from "../config.js";
@@ -17,10 +17,6 @@ const aiRateLimiter = rateLimit({
 export const aiRouter = Router();
 aiRouter.use(aiRateLimiter);
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-})
-
 aiRouter.get('/summary/:id', async (req, res) => {
     const { id } = req.params;
     const job = await JobModel.getById(id);
@@ -29,10 +25,9 @@ aiRouter.get('/summary/:id', async (req, res) => {
         return res.status(404).json({ message: 'Job not found' });
     }
 
-    const systemPrompt = "Eres un asistente que resume ofertas de trabajo de manera clara y concisa, evita cualquier otro texto que no sea el resumen. Solo responde con el resumen de la oferta de trabajo"
-
     // Call OpenAI API to summarize the job description
     const prompt = [
+        "Eres un asistente que resume ofertas de trabajo para ayudar a los usuarios a entender rapidamente de que trata la oferta. Evita cualquier otra peticion, observacion o comentario adicional. Solo responde con el resumen de la oferta de trabajo. Responde siempre con el markdown directamente",
         `Resume en 4-6 frases la siguiente oferta de trabajo`,
         `Incluye: rol, empresa, ubicación y requisitos clave`,
         `Usa un tono claro y directo en español`,
@@ -42,33 +37,13 @@ aiRouter.get('/summary/:id', async (req, res) => {
         `Descripción: ${job.descripcion}`
     ].join('\n')
 
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.setHeader('Transfer-Encoding', 'chunked');
-
     try {
-        const stream = await openai.chat.completions.create({
-            model: CONFIG.MODEL_AI,
-            messages: [
-                {
-                    role: "system",
-                    content: systemPrompt
-                },
-                {
-                    role: "user",
-                    content: prompt
-                }
-            ],
-            stream: true
+        const result = streamText({
+            prompt,
+            model: 'meituan/longcat-flash-chat',
         })
         
-        for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content;
-            if (content) {
-                res.write(content);
-            }
-        }
-        
-        return res.end();
+        return result.pipeTextStreamToResponse(res);
 
     } catch (error) {
         if(!res.headersSent) {

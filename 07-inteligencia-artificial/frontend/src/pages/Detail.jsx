@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { Link } from "../components/Link";
 import { useAuthStore } from "../store/authStore";
 import { useFavoritesStore } from "../store/favoritesStore";
+import { useAISummary } from "../hooks/useAISummary";
 
 import snarkdown from "snarkdown";
 import styles from "./Detail.module.css";
@@ -40,7 +41,7 @@ function DetailPageBreadcrumb({ job }) {
   );
 }
 
-function DetailPageHeader({ job, children }) {
+function DetailPageHeader({ job, onGenerateSummary, summaryLoading }) {
   return (
     <header className={styles.header}>
       <div>
@@ -53,7 +54,13 @@ function DetailPageHeader({ job, children }) {
       <div className={styles.actions}>
         <DetailApplyButton />
         <DetailFavoriteButton jobId={job.id} />
-        <AISummary jobId={job.id} />
+        <button
+          onClick={onGenerateSummary}
+          disabled={summaryLoading}
+          className={styles.aiSummaryButton}
+        >
+          {summaryLoading ? "Generando..." : "Generar resumen"}
+        </button>
       </div>
     </header>
   );
@@ -102,61 +109,6 @@ function DetailFavoriteButton({ jobId }) {
   );
 }
 
-function AISummary({ jobId }) {
-  const [summary, setSummary] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const generateSummary = async () => {
-    setLoading(true);
-    setError(null);
-    setSummary('');
-
-    try {
-      const response = await fetch(`${API_URL}/ai/summary/${jobId}`);
-      if (!response.ok) {
-        throw new Error("Summary not found");
-      }
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        const chunk = decoder.decode(value, { stream: true });
-        setSummary((prev) => prev + chunk);
-      }
-
-    } catch (error) {
-      setError("Error al generar el resumen");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (summary) {
-    return (
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Resumen con IA</h2>
-        <div className={styles.sectionContent}>
-          <p>{summary}</p>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <button
-      onClick={generateSummary}
-      disabled={loading}
-      className={styles.aiSummaryButton}
-    >
-      {loading ? "Generando..." : "Generar resumen"}
-    </button>
-  );
-}
-
 export default function JobDetail() {
   const { jobId } = useParams();
   const navigate = useNavigate();
@@ -164,6 +116,7 @@ export default function JobDetail() {
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { summary, loading: summaryLoading, generateSummary } = useAISummary(jobId);
 
   useEffect(() => {
     fetch(`${API_URL}/jobs/${jobId}`)
@@ -205,7 +158,20 @@ export default function JobDetail() {
     <>
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 1rem" }}>
         <DetailPageBreadcrumb job={job} />
-        <DetailPageHeader job={job} />
+        <DetailPageHeader
+          job={job}
+          onGenerateSummary={generateSummary}
+          summaryLoading={summaryLoading}
+        />
+
+        {summary && (
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Resumen con IA</h2>
+            <div className={styles.sectionContent}>
+              <p>{summary}</p>
+            </div>
+          </section>
+        )}
 
         <JobSection
           title="Descripción del puesto"
