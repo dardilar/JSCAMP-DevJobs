@@ -6,6 +6,7 @@ import { useFavoritesStore } from "../store/favoritesStore";
 import { useAISummary } from "../hooks/useAISummary";
 
 import snarkdown from "snarkdown";
+import { Streamdown } from "streamdown";
 import styles from "./Detail.module.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -166,9 +167,9 @@ export default function JobDetail() {
 
         {summary && (
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Resumen con IA</h2>
+            <h2 className={styles.sectionTitle}>Resumen con IA ✨</h2>
             <div className={styles.sectionContent}>
-              <p>{summary}</p>
+              <Streamdown isAnimating={summaryLoading}>{summary}</Streamdown>
             </div>
           </section>
         )}

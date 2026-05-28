@@ -246,6 +246,7 @@ main>section:nth-child(2) {
   &>header {
     gap: 2px;
     flex-direction: column;
+    border: none;
 
     h2 {
       margin-bottom: 0;
@@ -280,7 +281,9 @@ main>section:nth-child(2)>div>div:first-child>p {
 main>section:nth-child(2) footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px
+  gap: 16px;
+  border: none;
+  margin-top: 0;
 }
 
 /* Feature Cards */
