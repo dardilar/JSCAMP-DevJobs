@@ -16,3 +16,9 @@ jobs:
 
       - name: Listar archivos
         run: ls -la
+
+  repo-files:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v6
