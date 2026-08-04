@@ -1,0 +1,17 @@
+name: 02 - Manual
+
+on:
+    workflow_dispatch:
+
+jobs:
+    manual:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Ejecutar manualmente
+              run: echo "Ejecutando manualmente"
+            
+            - name: Mostrar fecha actual
+              run: date
+
+            - name: Listar archivos
+              run: ls -la
