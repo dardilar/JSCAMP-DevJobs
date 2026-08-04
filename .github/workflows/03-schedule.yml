@@ -1,0 +1,15 @@
+name: 03 - Schedule
+
+on:
+    schedule:
+        - cron: '0 9 * * MON'
+
+jobs:
+    scheduled:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Print schedule
+              run: |
+                echo "Scheduled job executed at $(date)"
+                echo "Cron expression: 0 9 * * *"
+                echo "This job runs every day at 9 AM"
