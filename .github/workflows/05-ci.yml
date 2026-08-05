@@ -9,7 +9,7 @@ on:
             - main
 
 jobs:
-    ci:
+    frontend-lint:
         runs-on: ubuntu-22.04
         steps:
             - name: Checkout code
@@ -20,31 +20,95 @@ jobs:
               with:
                 version: 11
                 run_install: false
-
+            
             - name: Install dependecies
               run: |
                 cd 10-ci-cd
                 echo "::group::Install dependencies"
                 pnpm install
                 echo "::endgroup::"
-
+            
             - name: Lint
               run: |
                 cd 10-ci-cd
                 echo "::group::Lint"
-                pnpm lint
-                echo "::endgroup::"
+                pnpm lint:frontend
+                echo "::endgroup::" 
 
+    frontend-test:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: Prepare pnpm
+              uses: pnpm/action-setup@v6
+              with:
+                version: 11
+                run_install: false
+            
+            - name: Install dependecies
+              run: |
+                cd 10-ci-cd
+                echo "::group::Install dependencies"
+                pnpm install
+                echo "::endgroup::"
+            
             - name: Test
               run: |
                 cd 10-ci-cd
                 echo "::group::Test"
-                pnpm test
-                echo "::endgroup::"
+                pnpm test:frontend
+                echo "::endgroup::" 
 
-            - name: Build
+    backend-lint:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: Prepare pnpm
+              uses: pnpm/action-setup@v6
+              with:
+                version: 11
+                run_install: false
+            
+            - name: Install dependecies
               run: |
                 cd 10-ci-cd
-                echo "::group::Build"
-                pnpm build
+                echo "::group::Install dependencies"
+                pnpm install
                 echo "::endgroup::"
+            
+            - name: Lint
+              run: |
+                cd 10-ci-cd
+                echo "::group::Lint"
+                pnpm lint:backend
+                echo "::endgroup::" 
+
+    backend-test:
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+            
+            - name: Prepare pnpm
+              uses: pnpm/action-setup@v6
+              with:
+                version: 11
+                run_install: false
+            
+            - name: Install dependecies
+              run: |
+                cd 10-ci-cd
+                echo "::group::Install dependencies"
+                pnpm install
+                echo "::endgroup::"
+            
+            - name: Test
+              run: |
+                cd 10-ci-cd
+                echo "::group::Test"
+                pnpm test:backend
+                echo "::endgroup::" 
