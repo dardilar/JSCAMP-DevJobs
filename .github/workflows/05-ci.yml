@@ -14,7 +14,7 @@ jobs:
       - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Lint
         run: |
-          cd 09-ci-cd
+          cd 10-ci-cd
           echo "::group::Lint"
           pnpm lint:frontend
           echo "::endgroup::"
@@ -26,7 +26,7 @@ jobs:
       - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Test
         run: |
-          cd 09-ci-cd
+          cd 10-ci-cd
           echo "::group::Test"
           pnpm test:frontend
           echo "::endgroup::"
@@ -38,7 +38,7 @@ jobs:
       - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Lint
         run: |
-          cd 09-ci-cd
+          cd 10-ci-cd
           echo "::group::Lint"
           pnpm lint:backend
           echo "::endgroup::"
@@ -50,7 +50,7 @@ jobs:
       - uses: ./.github/actions/setup-pnpm-ci-cd
       - name: Test
         run: |
-          cd 09-ci-cd
+          cd 10-ci-cd
           echo "::group::Test"
           pnpm test:backend
           echo "::endgroup::"
