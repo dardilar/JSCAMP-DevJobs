@@ -27,3 +27,15 @@ jobs:
                 GITHUB_REPOSITORY: ${{ github.repository }}
               run: |
                 gh issue comment ${{ env.ISSUE_NUMBER }} --body "¡Hola! Gracias por abrir este issue." --repo ${{ env.GITHUB_REPOSITORY }}
+
+            - name: Comentar como autor del repo
+              if: github.event_name == 'issue_comment' && github.event.action == 'created'
+              env:
+                AUTHOR_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+                ISSUE_NUMBER: ${{ github.event.issue.number }}
+              run: |
+                if [[ -z "${{ env.AUTHOR_TOKEN }}" ]]; then
+                  echo "::warning::AUTHOR_TOKEN is not set. Please add a personal access token to the workflow secrets."
+                  exit 0
+                fi
+                GH_TOKEN=${{ env.AUTHOR_TOKEN }} gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body "¡Hola! Gracias por comentar en este issue."
