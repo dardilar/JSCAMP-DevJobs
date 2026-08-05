@@ -30,6 +30,19 @@ jobs:
           echo "::group::Test"
           pnpm test:frontend
           echo "::endgroup::"
+    
+  frontend-build:
+    needs: [frontend-lint, frontend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Build
+        run: |
+          cd 10-ci-cd
+          echo "::group::Build"
+          pnpm build:frontend
+          echo "::endgroup::"
 
   backend-lint:
     runs-on: ubuntu-24.04
@@ -53,4 +66,19 @@ jobs:
           cd 10-ci-cd
           echo "::group::Test"
           pnpm test:backend
+          echo "::endgroup::"
+    
+  backend-smoke-test:
+    needs: [backend-lint, backend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Smoke Test
+        run: |
+          cd 10-ci-cd
+          echo "::group::Smoke Test"
+          pnpm build:backend
+          pnpm start:backend
+          curl -X GET http://localhost:3000/health
           echo "::endgroup::"
