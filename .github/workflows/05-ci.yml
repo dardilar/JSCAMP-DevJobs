@@ -1,114 +1,56 @@
 name: 05 - CI
 
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        branches:
-            - main
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    frontend-lint:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v6
-            
-            - name: Prepare pnpm
-              uses: pnpm/action-setup@v6
-              with:
-                version: 11
-                run_install: false
-            
-            - name: Install dependecies
-              run: |
-                cd 10-ci-cd
-                echo "::group::Install dependencies"
-                pnpm install
-                echo "::endgroup::"
-            
-            - name: Lint
-              run: |
-                cd 10-ci-cd
-                echo "::group::Lint"
-                pnpm lint:frontend
-                echo "::endgroup::" 
+  frontend-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Lint
+        run: |
+          cd 09-ci-cd
+          echo "::group::Lint"
+          pnpm lint:frontend
+          echo "::endgroup::"
 
-    frontend-test:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v6
-            
-            - name: Prepare pnpm
-              uses: pnpm/action-setup@v6
-              with:
-                version: 11
-                run_install: false
-            
-            - name: Install dependecies
-              run: |
-                cd 10-ci-cd
-                echo "::group::Install dependencies"
-                pnpm install
-                echo "::endgroup::"
-            
-            - name: Test
-              run: |
-                cd 10-ci-cd
-                echo "::group::Test"
-                pnpm test:frontend
-                echo "::endgroup::" 
+  frontend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Test
+        run: |
+          cd 09-ci-cd
+          echo "::group::Test"
+          pnpm test:frontend
+          echo "::endgroup::"
 
-    backend-lint:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v6
-            
-            - name: Prepare pnpm
-              uses: pnpm/action-setup@v6
-              with:
-                version: 11
-                run_install: false
-            
-            - name: Install dependecies
-              run: |
-                cd 10-ci-cd
-                echo "::group::Install dependencies"
-                pnpm install
-                echo "::endgroup::"
-            
-            - name: Lint
-              run: |
-                cd 10-ci-cd
-                echo "::group::Lint"
-                pnpm lint:backend
-                echo "::endgroup::" 
+  backend-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Lint
+        run: |
+          cd 09-ci-cd
+          echo "::group::Lint"
+          pnpm lint:backend
+          echo "::endgroup::"
 
-    backend-test:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v6
-            
-            - name: Prepare pnpm
-              uses: pnpm/action-setup@v6
-              with:
-                version: 11
-                run_install: false
-            
-            - name: Install dependecies
-              run: |
-                cd 10-ci-cd
-                echo "::group::Install dependencies"
-                pnpm install
-                echo "::endgroup::"
-            
-            - name: Test
-              run: |
-                cd 10-ci-cd
-                echo "::group::Test"
-                pnpm test:backend
-                echo "::endgroup::" 
+  backend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-pnpm-ci-cd
+      - name: Test
+        run: |
+          cd 09-ci-cd
+          echo "::group::Test"
+          pnpm test:backend
+          echo "::endgroup::"
