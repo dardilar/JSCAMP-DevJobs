@@ -28,5 +28,5 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        cd 09-ci-cd
+        cd 10-ci-cd
         pnpm install --frozen-lockfile
