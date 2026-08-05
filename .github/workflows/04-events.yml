@@ -17,3 +17,11 @@ jobs:
                 echo "Issue number: ${{ github.event.issue.number }}"
                 echo "Comment body: ${{ github.event.comment.body }}"
     
+            - name: Comentar como bot en GitHub Actions
+              if: github.event_name == 'issues' && github.event.action == 'opened'
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                ISSUE_NUMBER: ${{ github.event.issue.number }}
+                GITHUB_REPOSITORY: ${{ github.repository }}
+              run: |
+                gh issue comment ${{ env.ISSUE_NUMBER }} --body "¡Hola! Gracias por abrir este issue." --repo ${{ env.GITHUB_REPOSITORY }}
